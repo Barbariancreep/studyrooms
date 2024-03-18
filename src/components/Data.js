@@ -68,11 +68,10 @@ const Data = () => {
     const [openFile, setOpenFile] = useState(false);
 
     useEffect(() => {
-        const querySnapshot = getDocs(collection(db, userId));
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            
+        const userCollectionRef = collection(db, userId);
+        const snapshot = userCollectionRef.get();
+        snapshot.forEach(doc => {
+            console.log(doc.id, '=>', doc.data());
         });
         /*
         db.collection(userId).onSnapshot(snapshot => {
