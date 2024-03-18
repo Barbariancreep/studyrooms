@@ -1,0 +1,189 @@
+import styled from '@emotion/styled';
+
+// Icons
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import CloudQueueIcon from '@mui/icons-material/CloudQueue';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+
+// Modal stuff
+import Modal from '@mui/material/Modal';
+import { useState } from 'react';
+
+// File storage stuff
+import { db, storage } from '../firebase';
+import { doc, setDoc, Timestamp, collection } from "firebase/firestore"; 
+import { getDownloadURL, getMetadata, ref } from "firebase/storage";
+
+const SidebarContainer = styled.div`
+    margin-top: 10px;
+`
+
+const SidebarOptionsList = styled.div`
+    margin-top: 10px;
+    .progress_bar {
+        padding: 0px 20px;
+    }
+    .progress_bar span {
+        display: block;
+        color:#333;
+        font-size: 13px;
+    }
+`
+
+const SidebarOption = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 8px 20px;
+    border-radius: 0px 20px 20px 0px;
+    &:hover{
+        background: whitesmoke;
+        cursor: pointer;
+    }
+    svg.MuiSvgIcon-root {
+        color:#00d7ff;
+    }
+    span {
+        margin-left: 15px;
+        font-size: 13px;
+        font-weight: 500;
+        color:#000000;
+    }
+`
+
+const AddFilePopup = styled.div`
+    top: 50%;
+    background-color: #fff;
+    width: 500px;
+    margin: 0px auto;
+    position: relative;
+    transform: translateY(-50%);
+    padding: 10px;
+    border-radius: 10px;
+`
+
+const Sidebar = () => {
+    const userId = "admin";
+    const collectionRef = collection(db, userId);
+
+    const [openCreate, setOpenCreate] = useState(false);
+    const [openUpload, setOpenUpload] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [file, setFile] = useState(null);
+
+    const handleFile = e => {
+        if(e.target.files[0]) {
+            setFile(e.target.files[0])
+        }
+    }
+
+    // function to upload from file
+    const uploadFile = e => {
+        e.preventDefault()
+        setUploading(true)
+
+        let fileRef = ref(storage, userId + "/" + file.name);
+        let docData = {
+            timestamp: Timestamp.now(),
+            filename: file.name,
+            fileURL: getDownloadURL(fileRef),
+            filesize: getMetadata(fileRef).size
+        };
+        setDoc(doc(db, collectionRef), docData);
+        setUploading(false);
+        setFile(null);
+        setOpenUpload(false);
+        
+        /*
+        storage.ref(`files/${file.name}`).put(file).then(snapshot => { // just stores all files in a "files" directory for now
+            storage.ref("files").child(file.name).getDownloadURL().then(url => {
+                db.collection(userId).add({
+                    timestamp: db.FieldValue.serverTimestamp,
+                    filename: file.name,
+                    fileURL: url,
+                    filesize: snapshot._delegate.bytesTransferred
+                })
+                setUploading(false)
+                setFile(null)
+                setOpenUpload(false)
+            })
+        })
+        */
+    }
+
+    return (
+        <>
+        <Modal
+            open={openCreate}
+            onClose={() => setOpenCreate(false)}
+            >
+            <AddFilePopup>  
+                <span>TO BE ADDED</span>
+            </AddFilePopup>
+        </Modal>
+
+        <Modal
+            open={openUpload}
+            onClose={() => setOpenUpload(false)}
+            >
+            <AddFilePopup>
+                <form onSubmit={uploadFile}>
+                    {uploading ? <span>Uploading...</span> : (
+                        <>
+                            <input type="file" className='modal__file' onChange={handleFile} />
+                            <input type="submit" className='modal__submit' value="Confirm"/>
+                        </>
+                    )}
+                </form>
+            </AddFilePopup>
+        </Modal>
+
+        <SidebarContainer>
+            <SidebarOptionsList>
+                <SidebarOption onClick={() => setOpenCreate(true)}>
+                    <EditNoteIcon/>
+                    <span>Create New File</span>
+                </SidebarOption>
+                <SidebarOption onClick={() => setOpenUpload(true)}>
+                    <UploadFileIcon/>
+                    <span>Upload New File</span>
+                </SidebarOption>
+            </SidebarOptionsList>
+            <hr />
+            <SidebarOptionsList>
+                <SidebarOption>
+                    <FolderCopyIcon />
+                    <span>My Files</span>
+                </SidebarOption>
+                <SidebarOption>
+                    <PeopleAltOutlinedIcon />
+                    <span>Shared with me</span>
+                </SidebarOption>
+                <SidebarOption>
+                    <QueryBuilderIcon />
+                    <span>Recent</span>
+                </SidebarOption>
+                <SidebarOption>
+                    <DeleteOutlineIcon />
+                    <span>Trash</span>
+                </SidebarOption>
+            </SidebarOptionsList>
+            <hr />
+            <SidebarOptionsList>
+                <SidebarOption>
+                    <CloudQueueIcon />
+                    <span>Storage</span>
+                </SidebarOption>
+                <div className="progress_bar">
+                    <progress size="tiny" value="1" max="100" />
+                    <span>0 GB  of 10 GB used</span>
+                </div>
+            </SidebarOptionsList>
+        </SidebarContainer>
+        </>
+    )
+}
+export default Sidebar
