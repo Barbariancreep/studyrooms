@@ -11,7 +11,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 
 // Modal stuff
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // File storage stuff
 import { db, storage } from '../firebase';
@@ -114,6 +114,9 @@ const Sidebar = () => {
         setUploading(false);
         setFile(null);
         setOpenUpload(false);
+
+        //Page to update firestore data list in Data.js
+        window.location.reload();
     }
 
     return (

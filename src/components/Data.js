@@ -64,11 +64,11 @@ const AddFilePopup = styled.div`
 
 const Data = () => {
     const userId = "admin";
+    const userCollectionRef = collection(db, userId);
     const [files, setFiles] = useState([]);
     const [openFile, setOpenFile] = useState(false);
 
     useEffect(() => {
-        const userCollectionRef = collection(db, userId);
         const querySnapshot = getDocs(userCollectionRef); // conditionless query that returns all documents in collection
         querySnapshot.then((snapshot) => {
             setFiles(snapshot.docs.map(doc => ({
@@ -88,31 +88,7 @@ const Data = () => {
 
         return `${hours}:${minutes}  ${day}/${month}/${year}`;
     }
-
-    const downloadFB = async (fbFile) => {
-        try {
-            // GET request from firebase url
-            const response = await fetch(fbFile.data.fileURL);
-            
-            if (!response.ok) {
-                throw new Error('Failed to fetch file');
-            }
-
-            // Create a Blob from the response
-            const blob = await response.blob();
-
-            // Create an anchor element and trigger the download
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fbFile.data.filename;
-            link.click();
-        } 
-        catch (error) {
-            console.error('Error downloading file:', error);
-        }
-
-      };
-    
+      
     return (
         <>
         <Modal
@@ -135,9 +111,9 @@ const Data = () => {
                 <p><b>Last Modified</b></p>
                 <p><b>File Size</b></p>
             </DataListHeader>
-
+            
             {files.map(file => (
-                <DataListRow key={file.id}>
+                <DataListRow key={file.id} onClick={() => window.open(file.data.fileURL, '_blank').focus()}>
                     <p>{file.data.filename}</p>
                     <p>{userId}</p>
                     <p>{secondsToDate(file.data.timestamp.seconds)}</p>
