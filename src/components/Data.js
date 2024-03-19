@@ -12,7 +12,7 @@ import Modal from '@mui/material/Modal';
 // ball
 import { useEffect, useState } from 'react';
 import { db } from '../firebase';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, query, where, collection } from 'firebase/firestore';
 
 const DataContainer = styled.div`
     flex: 1 1;
@@ -69,34 +69,24 @@ const Data = () => {
 
     useEffect(() => {
         const userCollectionRef = collection(db, userId);
-        const snapshot = userCollectionRef.get();
-        snapshot.forEach(doc => {
-            console.log(doc.id, '=>', doc.data());
-        });
-        /*
-        db.collection(userId).onSnapshot(snapshot => {
+        const querySnapshot = getDocs(userCollectionRef); // conditionless query that returns all documents in collection
+        querySnapshot.then((snapshot) => {
             setFiles(snapshot.docs.map(doc => ({
                 id: doc.id,
                 data: doc.data()
-            })))
-        })
-        */
+            })))  
+        });
     }, [])
 
-    function timestampToDate(ts) { //convert the firebase timestamp type to the a string
-        let date = new Date(ts?.seconds*1000);
-        let dateString = "";
-        return dateString.concat(
-            date.getHours().toLocaleString('en-UK', {minimumIntegerDigits: 2}),
-            ":",
-            date.getMinutes().toLocaleString('en-UK', {minimumIntegerDigits: 2}),
-            " ",
-            date.getDay().toLocaleString('en-UK', {minimumIntegerDigits: 2}),
-            "/",
-            date.getMonth().toLocaleString('en-UK', {minimumIntegerDigits: 2}),
-            "/",
-            date.getFullYear().toString()
-        );
+    function secondsToDate(seconds) { // Covert seconds passed since Unix epoch 1970-01-01T00:00:00Z into HH:MM DD/MM/YYYY string
+        const date = new Date(seconds * 1000); // Convert seconds to milliseconds
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // +1 because months are zero-based
+        const year = date.getFullYear();
+
+        return `${hours}:${minutes}  ${day}/${month}/${year}`;
     }
 
     const downloadFB = async (fbFile) => {
@@ -150,8 +140,8 @@ const Data = () => {
                 <DataListRow key={file.id}>
                     <p>{file.data.filename}</p>
                     <p>{userId}</p>
-                    <p>{timestampToDate(file.data.timestamp)}</p>
-                    <p>{file.data.filesize}</p>
+                    <p>{secondsToDate(file.data.timestamp.seconds)}</p>
+                    <p>{file.data.filesize} B</p>
                 </DataListRow>
             ))}
 

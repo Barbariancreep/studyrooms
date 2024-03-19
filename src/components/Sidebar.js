@@ -15,8 +15,8 @@ import { useState } from 'react';
 
 // File storage stuff
 import { db, storage } from '../firebase';
-import { doc, setDoc, Timestamp, collection } from "firebase/firestore"; 
-import { getDownloadURL, getMetadata, ref } from "firebase/storage";
+import { doc, setDoc, Timestamp, collection, addDoc } from "firebase/firestore"; 
+import { getDownloadURL, getMetadata, ref, uploadBytes } from "firebase/storage";
 
 const SidebarContainer = styled.div`
     margin-top: 10px;
@@ -67,7 +67,6 @@ const AddFilePopup = styled.div`
 
 const Sidebar = () => {
     const userId = "admin";
-    const collectionRef = collection(db, userId);
 
     const [openCreate, setOpenCreate] = useState(false);
     const [openUpload, setOpenUpload] = useState(false);
@@ -81,37 +80,40 @@ const Sidebar = () => {
     }
 
     // function to upload from file
-    const uploadFile = e => {
+    async function uploadFile (e) {
         e.preventDefault()
         setUploading(true)
 
-        let fileRef = ref(storage, userId + "/" + file.name);
-        let docData = {
-            timestamp: Timestamp.now(),
-            filename: file.name,
-            fileURL: getDownloadURL(fileRef),
-            filesize: getMetadata(fileRef).size
-        };
-        setDoc(doc(db, collectionRef), docData);
+        // Add file to firestore storage
+        const storageRef = ref(storage, `${userId}/${file.name}`);
+        try {
+            await uploadBytes(storageRef, file);
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        }
+        
+        // Add firestore entry
+        const collectionRef = collection(db, "admin");
+        try {
+            const downloadURL = await getDownloadURL(storageRef);
+            const metadata = await getMetadata(storageRef);
+            console.log(downloadURL);
+            console.log(metadata);
+            console.log(metadata.size);
+            const docData = {
+                timestamp: Timestamp.now(),
+                filename: file.name,
+                fileURL: downloadURL,
+                filesize: metadata.size
+            };
+            await addDoc(collectionRef, docData);
+        } catch (error) {
+            console.error("Error adding Firestore document:", error);
+        }
+
         setUploading(false);
         setFile(null);
         setOpenUpload(false);
-        
-        /*
-        storage.ref(`files/${file.name}`).put(file).then(snapshot => { // just stores all files in a "files" directory for now
-            storage.ref("files").child(file.name).getDownloadURL().then(url => {
-                db.collection(userId).add({
-                    timestamp: db.FieldValue.serverTimestamp,
-                    filename: file.name,
-                    fileURL: url,
-                    filesize: snapshot._delegate.bytesTransferred
-                })
-                setUploading(false)
-                setFile(null)
-                setOpenUpload(false)
-            })
-        })
-        */
     }
 
     return (
