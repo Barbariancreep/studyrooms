@@ -16,10 +16,14 @@ import { getDocs, query, where, collection } from 'firebase/firestore';
 
 const DataContainer = styled.div`
     flex: 1 1;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    grid-template-rows: 1fr 1fr
     padding: 10px 0px 0px 20px;
 `
 
 const DataListHeader = styled.div`
+    grid-column: 1/2;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,6 +39,7 @@ const DataListHeader = styled.div`
 
 const DataListRow = styled.div`
     display: flex;
+    grid-column:1/2;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid black;
@@ -50,18 +55,27 @@ const DataListRow = styled.div`
         cursor: pointer;
     }
 `
-
-const AddFilePopup = styled.div`
-    top: 50%;
-    background-color: #fff;
-    width: 500px;
-    margin: 0px auto;
-    position: relative;
-    transform: translateY(-50%);
-    padding: 10px;
-    border-radius: 10px;
+const Settings=styled.div`
+    grid-column:2/3;
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    grid-row:1/3;
 `
+const Switch = styled.div`
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+`
+const SliderRound = styled.div`
 
+`
 const Data = () => {
     const userId = "admin";
     const userCollectionRef = collection(db, userId);
@@ -91,20 +105,8 @@ const Data = () => {
       
     return (
         <>
-        <Modal
-            open={openFile}
-            onClose={() => setOpenFile(false)}
-            >
-            <AddFilePopup>
-                <form>
-                    <input type="submit" className='modal__submit' value="Open in StudyRooms Editor"/>
-                    <input type="submit" className='modal__submit' value="Download to computer"/>
-                </form>
-            </AddFilePopup>
-        </Modal>
 
         <DataContainer>
-
             <DataListHeader>
                 <p><b>Name <ArrowDownwardIcon /></b></p>
                 <p><b>Owner</b></p>
@@ -120,7 +122,16 @@ const Data = () => {
                     <p>{file.data.filesize} B</p>
                 </DataListRow>
             ))}
-
+        <Settings>
+            <Switch>
+                <label>
+                    <SliderRound>
+                        <span></span>
+                    </SliderRound>
+                </label>
+            </Switch>
+            <span>Dark Mode</span>
+        </Settings>
         </DataContainer>
         </>
     )

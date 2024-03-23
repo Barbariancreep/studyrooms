@@ -69,7 +69,7 @@ const Header = ({ photoURL }) => {
             </HeaderSearch>
             <HeaderIcons>
                 <span>
-                    <HelpOutlineIcon />
+                    <HelpOutlineIcon onClick={() => window.open("https://mercury241.github.io/F29SEwebPage.github.io/", '_blank').focus()}/>
                     <SettingsIcon />
                 </span>
                 <span>
