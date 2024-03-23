@@ -1,17 +1,18 @@
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import Data from "./components/Data";
+import StorageApp from "./components/StorageApp";
+import TextEditorApp from "./components/TextEditorApp";
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 
 function App() {
-  return (
-    <>
-    <Header/>
-    <div className="App">
-        <Sidebar />
-        <Data />
-    </div>
-    </>
-  );
+
+  	return (
+		<Router>
+			<Routes>
+				<Route path="/" element={<StorageApp />} />
+				<Route path="/documents/" element={<Navigate to={`/`} />} />
+				<Route path="/documents/:id" element={<TextEditorApp />} />
+			</Routes>
+		</Router>
+  	);
 }
 
 export default App;

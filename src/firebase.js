@@ -20,6 +20,6 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
-//const provider = new firebase.auth.EmailAuthProvider();
+const rtDatabase = getDatabase();
 
-export { db, storage, auth }
+export { db, rtDatabase, storage, auth }

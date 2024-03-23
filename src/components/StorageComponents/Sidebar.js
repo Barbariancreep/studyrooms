@@ -14,7 +14,7 @@ import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 
 // File storage stuff
-import { db, storage } from '../firebase';
+import { db, storage } from '../../firebase';
 import { doc, setDoc, Timestamp, collection, addDoc } from "firebase/firestore"; 
 import { getDownloadURL, getMetadata, ref, uploadBytes } from "firebase/storage";
 

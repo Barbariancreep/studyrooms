@@ -11,7 +11,7 @@ import Modal from '@mui/material/Modal';
 
 // ball
 import { useEffect, useState } from 'react';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { getDocs, query, where, collection } from 'firebase/firestore';
 
 const DataContainer = styled.div`
