@@ -23,6 +23,7 @@
   },
   "scripts": {
     "devStart": "concurrently \"cd server && npm run devStart\" \"react-scripts start\"",
+    "install-all": "npm install && cd server && npm install",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
