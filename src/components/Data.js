@@ -51,17 +51,6 @@ const DataListRow = styled.div`
     }
 `
 
-const AddFilePopup = styled.div`
-    top: 50%;
-    background-color: #fff;
-    width: 500px;
-    margin: 0px auto;
-    position: relative;
-    transform: translateY(-50%);
-    padding: 10px;
-    border-radius: 10px;
-`
-
 const Data = () => {
     const userId = "admin";
     const userCollectionRef = collection(db, userId);
@@ -91,18 +80,6 @@ const Data = () => {
       
     return (
         <>
-        <Modal
-            open={openFile}
-            onClose={() => setOpenFile(false)}
-            >
-            <AddFilePopup>
-                <form>
-                    <input type="submit" className='modal__submit' value="Open in StudyRooms Editor"/>
-                    <input type="submit" className='modal__submit' value="Download to computer"/>
-                </form>
-            </AddFilePopup>
-        </Modal>
-
         <DataContainer>
 
             <DataListHeader>

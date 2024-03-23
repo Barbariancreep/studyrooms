@@ -11,7 +11,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 
 // Modal stuff
 import Modal from '@mui/material/Modal';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // File storage stuff
 import { db, storage } from '../firebase';
