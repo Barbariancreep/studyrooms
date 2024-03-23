@@ -55,7 +55,6 @@ const Data = () => {
     const userId = "admin";
     const userCollectionRef = collection(db, userId);
     const [files, setFiles] = useState([]);
-    const [openFile, setOpenFile] = useState(false);
 
     useEffect(() => {
         const querySnapshot = getDocs(userCollectionRef); // conditionless query that returns all documents in collection
@@ -77,7 +76,15 @@ const Data = () => {
 
         return `${hours}:${minutes}  ${day}/${month}/${year}`;
     }
-      
+    
+    function openFile(file) {
+        if (file.data.filename.endsWith(".study")) {
+            window.location.href = `/documents/${file.id}`;
+        } else {
+            window.open(file.data.fileURL, '_blank').focus()
+        }
+    }
+
     return (
         <>
         <DataContainer>
@@ -90,7 +97,7 @@ const Data = () => {
             </DataListHeader>
             
             {files.map(file => (
-                <DataListRow key={file.id} onClick={() => window.open(file.data.fileURL, '_blank').focus()}>
+                <DataListRow key={file.id} onClick={() => openFile(file)}>
                     <p>{file.data.filename}</p>
                     <p>{userId}</p>
                     <p>{secondsToDate(file.data.timestamp.seconds)}</p>
