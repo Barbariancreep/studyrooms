@@ -8,11 +8,14 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DownloadIcon from '@mui/icons-material/Download';
 import Modal from '@mui/material/Modal';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 // ball
 import { useEffect, useState } from 'react';
-import { db } from '../../firebase';
-import { getDocs, query, where, collection } from 'firebase/firestore';
+import { db, storage } from '../../firebase';
+import { getDocs, query, where, collection, deleteDoc, doc } from 'firebase/firestore';
+import { ref, deleteObject } from "firebase/storage";
+
 
 const DataContainer = styled.div`
     flex: 1 1;
@@ -39,6 +42,9 @@ const DataListRow = styled.div`
     justify-content: space-between;
     border-bottom: 1px solid black;
     padding: 10px;
+    div {
+        display: contents;
+    }
     p {
         flex: 1;
         display: flex;
@@ -85,6 +91,18 @@ const Data = () => {
         }
     }
 
+    async function deleteFile(fileToDelete) {
+        await deleteDoc(doc(db, userId, fileToDelete.id)); // delete doc
+        var fileRef = ref(storage, `${userId}/${fileToDelete.data.filename}`);
+        if (fileRef) {
+            deleteObject(fileRef); // delete file
+        }
+
+        //remove html element
+        const updatedFiles = files.filter(file => file.id !== fileToDelete.id);
+        setFiles(updatedFiles);
+    }
+
     return (
         <>
         <DataContainer>
@@ -97,11 +115,14 @@ const Data = () => {
             </DataListHeader>
             
             {files.map(file => (
-                <DataListRow key={file.id} onClick={() => openFile(file)}>
-                    <p>{file.data.filename}</p>
-                    <p>{userId}</p>
-                    <p>{secondsToDate(file.data.timestamp.seconds)}</p>
-                    <p>{file.data.filesize} B</p>
+                <DataListRow key={file.id}>
+                    <div onClick={() => openFile(file)}>
+                        <p>{file.data.filename}</p>
+                        <p>{userId}</p>
+                        <p>{secondsToDate(file.data.timestamp.seconds)}</p>
+                        <p>{file.data.filesize} B</p>
+                    </div>
+                    <div onClick={() => deleteFile(file)}><DeleteOutlineIcon/></div>
                 </DataListRow>
             ))}
 
