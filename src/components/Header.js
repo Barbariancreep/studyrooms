@@ -23,10 +23,13 @@ const HeaderLogo = styled.div`
         width: 40px;
     }
     span{
-        font-size: 22px;
+        
         margin-left: 10px;
         color: #000000;
     }
+    span.h1{font-size: 22px;
+    color: var(--text-primary);
+}
 `
 
 const HeaderSearch = styled.div`

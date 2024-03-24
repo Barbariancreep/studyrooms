@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Modal from '@mui/material/Modal';
-import React, { useState } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import React, { useState, useContext } from "react";
+import { ThemeContext } from "../Theme";
 
 const SettingContainer = styled.div`
     openS{
@@ -17,6 +17,7 @@ const SettingContainer = styled.div`
     closeS{
         display:none;
     }
+    
 `
 const SettingOptionList = styled.div`
     margin-top: 10px;
@@ -39,7 +40,7 @@ const SettingOption = styled.div`
     `
 
 const Settings = () => {
-
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const [setting, openSetting] = useState("closeS");
 
     const openSettings = () => {
@@ -53,7 +54,7 @@ const Settings = () => {
         <SettingOptionList>
            <SettingOption>
                 <span>Dark Mode</span>
-                
+                <button onClick={() => toggleTheme()}>{theme}</button>
             </SettingOption>
         </SettingOptionList>
     </SettingContainer>
