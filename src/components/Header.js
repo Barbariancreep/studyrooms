@@ -4,6 +4,8 @@ import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AppsIcon from '@mui/icons-material/Apps';
+import openSettings from './Settings'
+
 //import { Avatar } from '@mui/base/';
 
 const HeaderContainer = styled.div`
@@ -53,8 +55,26 @@ const HeaderIcons = styled.div`
         margin: 0px 10px;
     }
 `
+const Help = styled.div`
+display: flex;
+&:hover{
+    background: whitesmoke;
+    cursor: pointer;
+    padding: 13px;
+}
+`
+const SettingIc = styled.div`
+display: flex;
+&:hover{
+    background: whitesmoke;
+    cursor: pointer;
+    padding: 13px;
+}
+`
 
 const Header = ({ photoURL }) => {
+    
+
     return (
         <>
         <HeaderContainer>
@@ -69,8 +89,12 @@ const Header = ({ photoURL }) => {
             </HeaderSearch>
             <HeaderIcons>
                 <span>
+                    <Help>
                     <HelpOutlineIcon onClick={() => window.open("https://mercury241.github.io/F29SEwebPage.github.io/", '_blank').focus()}/>
-                    <SettingsIcon />
+                    </Help>
+                    <SettingIc>
+                    <SettingsIcon onClick={openSettings}/>
+                    </SettingIc>
                 </span>
                 <span>
                     <AppsIcon />

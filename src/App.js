@@ -1,7 +1,7 @@
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Data from "./components/Data";
-
+import Settings from "./components/Settings";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
     <div className="App">
         <Sidebar />
         <Data />
-        
+        <Settings/>
     </div>
     </>
   );
