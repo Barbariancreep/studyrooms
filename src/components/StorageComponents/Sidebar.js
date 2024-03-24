@@ -126,16 +126,12 @@ const Sidebar = () => {
     async function createNewFile(e) {
         e.preventDefault();
 
-        if (!newFileName.toLowerCase().endsWith(".study")) { 
-            newFileName += ".study"; // add file extension if user hasn't already
-        }
-
         const collectionRef = collection(db, userId);
         try {
             const docData = {
                 timestamp: Timestamp.now(),
-                filename: newFileName,
-                fileURL: null,
+                filename: newFileName + ".study",
+                fileURL: '',
                 filesize: 0
             };
             await addDoc(collectionRef, docData);
