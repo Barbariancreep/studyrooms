@@ -20,6 +20,11 @@ import { getDownloadURL, getMetadata, ref, uploadBytes } from "firebase/storage"
 
 const SidebarContainer = styled.div`
     margin-top: 10px;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 `
 
 const SidebarOptionsList = styled.div`

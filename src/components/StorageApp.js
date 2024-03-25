@@ -1,17 +1,21 @@
 import Header from "./StorageComponents/Header";
 import Sidebar from "./StorageComponents/Sidebar";
 import Data from "./StorageComponents/Data";
-import styled from '@emotion/styled';
+import { ThemeProvider } from '../contexts/ThemeToggleContext';
+import { darkTheme, lightTheme } from '../Theme';
 
-function StorageApp() {
-
+function StorageApp(){
+  const isDarkTheme = false;
+  const theme = isDarkTheme ? darkTheme : lightTheme;
   return (
     <>
+    <ThemeProvider theme={theme}>
     <Header />
     <div className="App">
         <Sidebar />
         <Data />
     </div>
+    </ThemeProvider>
     </>
   );
 }

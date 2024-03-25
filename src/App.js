@@ -2,7 +2,7 @@ import StorageApp from "./components/StorageApp";
 import TextEditorApp from "./components/TextEditorApp";
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 
-function App() {
+function App({Component,pageProps}) {
 
   	return (
 		<Router>

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Modal from '@mui/material/Modal';
 import React, { useState, useContext } from "react";
+import ThemeToggleContext from '../../contexts/ThemeToggleContext';
 
 const SettingContainer = styled.div`
         position: absolute;
@@ -9,7 +10,10 @@ const SettingContainer = styled.div`
         height: 500px;
         width: 500px;
         z-index: 99;
-        background:white;
+        background: rgb(248, 248, 248);
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
     }
 `
 const SettingOptionList = styled.div`
@@ -29,17 +33,28 @@ const SettingOption = styled.div`
         font-size: 13px;
         font-weight: 500;
         color:#000000;
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
         }
     `
 
-const Settings =() => {
+const Settings =(props) => {
     
-    return(
+    const{
+        isDarkTheme,
+        toggleTheme
+    } = React.useContext(ThemeToggleContext);
 
-    <SettingContainer>
-        <SettingOptionList>
-           <SettingOption>
-                <span>Dark Mode</span>
+    return(
+    
+    <SettingContainer className={props.className}>
+        {props.title}
+        <SettingOptionList className={'list'}>
+           <SettingOption onClick={() => toggleTheme()}>
+                <span>{isDarkTheme ? 'Light' : 'Dark'} Mode</span>
             </SettingOption>
         </SettingOptionList>
     </SettingContainer>

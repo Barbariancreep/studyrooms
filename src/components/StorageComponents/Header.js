@@ -6,6 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import AppsIcon from '@mui/icons-material/Apps';
 import Settings from './Settings';
 import React, {useState} from "react";
+
 //import { Avatar } from '@mui/base/';
 
 const HeaderContainer = styled.div`
@@ -16,6 +17,11 @@ const HeaderContainer = styled.div`
     height: 60px;
     border-bottom: 1px solid black;
     background-color:rgb(100, 205, 217);
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 `
 const HeaderLogo = styled.div`
     display: flex;
@@ -78,7 +84,8 @@ display: flex;
     padding:10px;
 }
 `
-const Header = () => {
+const Header = (props) => {
+    
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     const toggleSettings = () => {

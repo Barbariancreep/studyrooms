@@ -1,5 +1,10 @@
 // allows us to style our components here in JS
 import styled from '@emotion/styled';
+import {ThemeProvider} from '@emotion/react';
+import useDarkMode from 'use-dark-mode';
+import React from 'react';
+import ThemeToggleContext from '../../contexts/ThemeToggleContext';
+import {darkTheme,lightTheme} from '../../Theme';
 
 // Icons from MUI
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -20,7 +25,12 @@ import { ref, deleteObject } from "firebase/storage";
 const DataContainer = styled.div`
     flex: 1 1;
     padding: 0px 0px 0px 20px;
-    
+    background:rgb(248, 248, 248) ;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 `
 
 const DataListHeader = styled.div`
@@ -60,7 +70,7 @@ const DataListRow = styled.div`
     }
 `
 
-const Data = () => {
+const Data = (props) => {
     const userId = "admin";
     const userCollectionRef = collection(db, userId);
     const [files, setFiles] = useState([]);
@@ -105,12 +115,28 @@ const Data = () => {
         const updatedFiles = files.filter(file => file.id !== fileToDelete.id);
         setFiles(updatedFiles);
     }
+    const darkMode = useDarkMode(true);
+    const currentTheme = darkMode.value ? darkTheme : lightTheme;
+
+    const [isMounted, setIsMounted] = React.useState(false);
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     return (
         <>
+        <ThemeProvider theme={currentTheme}>
+            {isMounted && (
+          <ThemeToggleContext.Provider
+            value={{
+              isDarkTheme: darkMode.value,
+              toggleTheme: darkMode.toggle,
+            }}
+          >
+        
         <DataContainer>
 
-            <DataListHeader>
+            <DataListHeader>{props.children}
                 <p><b>Name <ArrowDownwardIcon /></b></p>
                 <p><b>Owner</b></p>
                 <p><b>Last Modified</b></p>
@@ -118,7 +144,7 @@ const Data = () => {
             </DataListHeader>
             
             {files.map(file => (
-                <DataListRow key={file.id}>
+                <DataListRow key={file.id}>{props.children}
                     <div onClick={() => openFile(file)}>
                         <p>{file.data.filename}</p>
                         <p>{userId}</p>
@@ -128,8 +154,11 @@ const Data = () => {
                     <div onClick={() => deleteFile(file)}><DeleteOutlineIcon/></div>
                 </DataListRow>
             ))}
-
+        
         </DataContainer>
+        </ThemeToggleContext.Provider>
+        )}
+        </ThemeProvider>
         </>
     )
 }
