@@ -11,10 +11,10 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 
 // Modal stuff
 import Modal from '@mui/material/Modal';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // File storage stuff
-import { db, storage } from '../firebase';
+import { db, storage } from '../../firebase';
 import { doc, setDoc, Timestamp, collection, addDoc } from "firebase/firestore"; 
 import { getDownloadURL, getMetadata, ref, uploadBytes } from "firebase/storage";
 
@@ -72,6 +72,7 @@ const Sidebar = () => {
     const [openUpload, setOpenUpload] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [file, setFile] = useState(null);
+    const [newFileName, setNewFileName] = useState('');
 
     const handleFile = e => {
         if(e.target.files[0]) {
@@ -79,10 +80,16 @@ const Sidebar = () => {
         }
     }
 
+    const handleNewFileNameChange = e => {
+        if(e.target.value) {
+            setNewFileName(e.target.value)
+        }
+    }
+
     // function to upload from file
     async function uploadFile (e) {
-        e.preventDefault()
-        setUploading(true)
+        e.preventDefault();
+        setUploading(true);
 
         // Add file to firestore storage
         const storageRef = ref(storage, `${userId}/${file.name}`);
@@ -93,13 +100,10 @@ const Sidebar = () => {
         }
         
         // Add firestore entry
-        const collectionRef = collection(db, "admin");
+        const collectionRef = collection(db, userId);
         try {
             const downloadURL = await getDownloadURL(storageRef);
             const metadata = await getMetadata(storageRef);
-            console.log(downloadURL);
-            console.log(metadata);
-            console.log(metadata.size);
             const docData = {
                 timestamp: Timestamp.now(),
                 filename: file.name,
@@ -119,6 +123,27 @@ const Sidebar = () => {
         window.location.reload();
     }
 
+    async function createNewFile(e) {
+        e.preventDefault();
+
+        const collectionRef = collection(db, userId);
+        try {
+            const docData = {
+                timestamp: Timestamp.now(),
+                filename: newFileName + ".study",
+                fileURL: '',
+                filesize: 0
+            };
+            await addDoc(collectionRef, docData);
+        } catch (error) {
+            console.error("Error adding Firestore document:", error);
+        }
+
+        setNewFileName('');
+        //Page to update firestore data list in Data.js
+        window.location.reload();
+    }
+
     return (
         <>
         <Modal
@@ -126,7 +151,11 @@ const Sidebar = () => {
             onClose={() => setOpenCreate(false)}
             >
             <AddFilePopup>  
-                <span>TO BE ADDED</span>
+                <form onSubmit={createNewFile}>
+                    <p>New file name:</p>
+                    <input type="text" className='modal__textbox' value={newFileName} onChange={handleNewFileNameChange}/>
+                    <input type="submit" className='modal__submit' value="Confirm"/>
+                </form>
             </AddFilePopup>
         </Modal>
 

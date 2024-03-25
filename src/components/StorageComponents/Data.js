@@ -8,11 +8,14 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DownloadIcon from '@mui/icons-material/Download';
 import Modal from '@mui/material/Modal';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 // ball
 import { useEffect, useState } from 'react';
-import { db } from '../firebase';
-import { getDocs, query, where, collection } from 'firebase/firestore';
+import { db, storage } from '../../firebase';
+import { getDocs, query, where, collection, deleteDoc, doc } from 'firebase/firestore';
+import { ref, deleteObject } from "firebase/storage";
+
 
 const DataContainer = styled.div`
     flex: 1 1;
@@ -39,6 +42,9 @@ const DataListRow = styled.div`
     justify-content: space-between;
     border-bottom: 1px solid black;
     padding: 10px;
+    div {
+        display: contents;
+    }
     p {
         flex: 1;
         display: flex;
@@ -51,22 +57,10 @@ const DataListRow = styled.div`
     }
 `
 
-const AddFilePopup = styled.div`
-    top: 50%;
-    background-color: #fff;
-    width: 500px;
-    margin: 0px auto;
-    position: relative;
-    transform: translateY(-50%);
-    padding: 10px;
-    border-radius: 10px;
-`
-
 const Data = () => {
     const userId = "admin";
     const userCollectionRef = collection(db, userId);
     const [files, setFiles] = useState([]);
-    const [openFile, setOpenFile] = useState(false);
 
     useEffect(() => {
         const querySnapshot = getDocs(userCollectionRef); // conditionless query that returns all documents in collection
@@ -88,21 +82,30 @@ const Data = () => {
 
         return `${hours}:${minutes}  ${day}/${month}/${year}`;
     }
-      
+    
+    function openFile(file) {
+        if (file.data.filename.endsWith(".study")) {
+            window.location.href = `/documents/${file.id}`;
+        } else {
+            window.open(file.data.fileURL, '_blank').focus()
+        }
+    }
+
+    async function deleteFile(fileToDelete) {
+        await deleteDoc(doc(db, userId, fileToDelete.id)); // delete doc
+        
+        if (!fileToDelete.data.filename.endsWith(".study")) {
+            var fileRef = ref(storage, `${userId}/${fileToDelete.data.filename}`);
+            deleteObject(fileRef); // delete file
+        }
+
+        //remove html element
+        const updatedFiles = files.filter(file => file.id !== fileToDelete.id);
+        setFiles(updatedFiles);
+    }
+
     return (
         <>
-        <Modal
-            open={openFile}
-            onClose={() => setOpenFile(false)}
-            >
-            <AddFilePopup>
-                <form>
-                    <input type="submit" className='modal__submit' value="Open in StudyRooms Editor"/>
-                    <input type="submit" className='modal__submit' value="Download to computer"/>
-                </form>
-            </AddFilePopup>
-        </Modal>
-
         <DataContainer>
 
             <DataListHeader>
@@ -113,11 +116,14 @@ const Data = () => {
             </DataListHeader>
             
             {files.map(file => (
-                <DataListRow key={file.id} onClick={() => window.open(file.data.fileURL, '_blank').focus()}>
-                    <p>{file.data.filename}</p>
-                    <p>{userId}</p>
-                    <p>{secondsToDate(file.data.timestamp.seconds)}</p>
-                    <p>{file.data.filesize} B</p>
+                <DataListRow key={file.id}>
+                    <div onClick={() => openFile(file)}>
+                        <p>{file.data.filename}</p>
+                        <p>{userId}</p>
+                        <p>{secondsToDate(file.data.timestamp.seconds)}</p>
+                        <p>{file.data.filesize} B</p>
+                    </div>
+                    <div onClick={() => deleteFile(file)}><DeleteOutlineIcon/></div>
                 </DataListRow>
             ))}
 
