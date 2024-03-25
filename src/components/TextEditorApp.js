@@ -23,16 +23,14 @@ function sendQuillDataToFirebase(quill, delta, documentId) {
 	if (quill)
 	{
 		// Update Firebase Realtime Database
-		set(ref(rtDatabase, `documents/${documentId}/quillData`), { documentContent: quill.getContents().ops[0] });
+		set(ref(rtDatabase, `documents/${documentId}`), { quillData: quill.getContents().ops });
 	}
 }
 
 const getDocumentFromFirebase = (docPath) =>
-	get(child(ref(rtDatabase),`${docPath}/quillData`)).then((snapshot) => {
-		if (snapshot.exists()) {
-			console.log("Retrieved firebase doc:");
-			console.log(snapshot.val());
-			return Object.values(snapshot.val()); //convert object into array of values, as quill expects
+	get(child(ref(rtDatabase),`${docPath}`)).then((snapshot) => {
+		if (snapshot.exists() && typeof(snapshot.val().quillData) !== 'undefined') {
+			return Object.values(snapshot.val().quillData); //convert object into array of values, as quill expects
 		} else {
 			console.log("No data available");
 			return null;
@@ -103,7 +101,7 @@ export default function TextEditor() {
 		return () => {
 			quill.off('text-change', handler)
 		}
-	}, [socket, quill])
+	}, [socket, quill, documentId])
 
 	const stop_many_toolbars = useCallback((wrapper) => {
 		if (wrapper == null) return
