@@ -93,8 +93,9 @@ const Data = () => {
 
     async function deleteFile(fileToDelete) {
         await deleteDoc(doc(db, userId, fileToDelete.id)); // delete doc
-        var fileRef = ref(storage, `${userId}/${fileToDelete.data.filename}`);
-        if (fileRef) {
+        
+        if (!fileToDelete.data.filename.endsWith(".study")) {
+            var fileRef = ref(storage, `${userId}/${fileToDelete.data.filename}`);
             deleteObject(fileRef); // delete file
         }
 
