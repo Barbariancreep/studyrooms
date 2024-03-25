@@ -40,7 +40,7 @@ const SidebarOption = styled.div`
     padding: 8px 20px;
     border-radius: 0px 20px 20px 0px;
     &:hover{
-        background: whitesmoke;
+        background: rgb(240, 240, 240);
         cursor: pointer;
     }
     svg.MuiSvgIcon-root {
