@@ -12,7 +12,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 // ball
 import { useEffect, useState } from 'react';
-import { db, storage } from '../../firebase';
+import { db, storage, auth } from '../../firebase';
 import { getDocs, query, where, collection, deleteDoc, doc } from 'firebase/firestore';
 import { ref, deleteObject } from "firebase/storage";
 
@@ -65,9 +65,10 @@ const DataListRow = styled.div`
     }
 `
 
-const Data = () => {
-    const userId = "admin";
-    const userCollectionRef = collection(db, userId);
+const Data = ({ username }) => {
+    //var user = auth.currentUser
+    //const username = user.email.split('@')[0]; // the part of the email before the @
+    const userCollectionRef = collection(db, username);
     const [files, setFiles] = useState([]);
 
     useEffect(() => {
@@ -100,10 +101,10 @@ const Data = () => {
     }
 
     async function deleteFile(fileToDelete) {
-        await deleteDoc(doc(db, userId, fileToDelete.id)); // delete doc
+        await deleteDoc(doc(db, username, fileToDelete.id)); // delete doc
         
         if (!fileToDelete.data.filename.endsWith(".study")) {
-            var fileRef = ref(storage, `${userId}/${fileToDelete.data.filename}`);
+            var fileRef = ref(storage, `${username}/${fileToDelete.data.filename}`);
             deleteObject(fileRef); // delete file
         }
 
@@ -127,7 +128,7 @@ const Data = () => {
                 <DataListRow key={file.id}>
                     <div onClick={() => openFile(file)}>
                         <p>{file.data.filename}</p>
-                        <p>{userId}</p>
+                        <p>{file.data.owner}</p>
                         <p>{secondsToDate(file.data.timestamp.seconds)}</p>
                         <p>{file.data.filesize} B</p>
                     </div>

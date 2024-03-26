@@ -32,7 +32,7 @@ function LoginPage({ onLogin }) {
             }
 
             // Trigger onLogin to allow user access on App.js
-            onLogin();
+            onLogin(user.email.split('@')[0]); // username is the part of the email before the @
 
             // Firebase Database Reference
             var databaseRef = ref(database, "users/")
