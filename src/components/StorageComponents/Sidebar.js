@@ -68,6 +68,15 @@ const AddFilePopup = styled.div`
     transform: translateY(-50%);
     padding: 10px;
     border-radius: 10px;
+    p{display:flex;}
+    input.modal__textbox{
+        background:grey;
+        display:flex;
+    }
+    input.modal__file{
+        background:grey;
+        display:flex;
+    }
 `
 
 const Sidebar = ({ username }) => {
