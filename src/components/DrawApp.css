@@ -1,0 +1,84 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+canvas {
+    display: block;
+    margin: 50px auto;
+    background-color: white;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 20px 0 20px 0;
+    background: darkgray;
+    max-height: 80px;
+}
+
+.toolbar div {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.toolbar label {
+    margin-right: 5px;
+}
+
+.toolbar input[type="color"],
+.toolbar input[type="range"] {
+    margin-right: 10px;
+}
+
+.toolbar button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.toolbar button img {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+}
+
+.toolbar button.selected {
+    border: 2px solid black;
+    background: antiquewhite;
+}
+
+.toolbar button:hover {
+    border: 1px solid black;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    border: black 1px;
+}
+.additional-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.additional-buttons button {
+    padding: 10px 20px;
+    margin: 10px 10px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.additional-buttons button:hover {
+    background-color: #e0e0e0;
+}
+
