@@ -69,7 +69,7 @@ const DrawPage = styled.div`
 	font-size:17.5px;
 	&:hover{
 		border-radius: 25px;
-		background-color:rgb(105, 219, 231);
+		background-color:#556d7c;
 		cursor: pointer;
 		padding-left:10px;
 		padding-right:10px;
