@@ -4,7 +4,7 @@ import brushIcon from './icons/brush.svg';
 import eraserIcon from './icons/eraser.svg';
 
 
-const DrawingApp = ({ onExportToEditor }) => {
+const DrawApp = ({ onExportToEditor }) => {
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [brushColor, setBrushColor] = useState('#000000');
@@ -66,11 +66,16 @@ const DrawingApp = ({ onExportToEditor }) => {
         window.history.back();
     };
 
-    const exportToEditor = () => {
+    const saveImage = () => {
+        // prompt the user to enter a filename
+        const fileName = window.prompt('Please enter a filename:', 'drawing.png');
+        if (!fileName) return;
         const canvas = canvasRef.current;
         const dataURL = canvas.toDataURL();
-        onExportToEditor(dataURL);
-        window.history.back();
+        const anchor = document.createElement('a');
+        anchor.href = dataURL;
+        anchor.download = fileName;
+        anchor.click();
     };
 
     return (
@@ -118,10 +123,10 @@ const DrawingApp = ({ onExportToEditor }) => {
             <div className="additional-buttons">
                 <button onClick={clearCanvas}>Clear Canvas</button>
                 <button onClick={returnToEditor}>Return to Editor</button>
-                <button onClick={exportToEditor}>Export to Editor</button>
+                <button onClick={saveImage}>Save as Image</button>
             </div>
         </div>
     );
 };
 
-export default DrawingApp;
+export default DrawApp;
