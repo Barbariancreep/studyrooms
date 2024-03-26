@@ -8,7 +8,6 @@ import { database } from '../firebase';
 import { ref, set, get, child } from "firebase/database";
 import "./TextEditorApp.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import styled from "@emotion/styled"
 import styled from '@emotion/styled';
 
 const TOOLBAR_COMMANDS = [
