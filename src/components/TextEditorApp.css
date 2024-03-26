@@ -6,6 +6,34 @@
 body {
     background-color:rgb(248, 248, 248) ; 
 }
+.help {
+    color:black;
+    position: absolute;
+    top: 20%;
+
+}
+.help button:hover {
+    cursor: pointer;
+}
+
+/*.draw-button {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.draw-button button {*/
+/*    padding: 10px 20px;*/
+/*    margin: 10px 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    background-color: #f0f0f0;*/
+/*    color: #333;*/
+/*    font-size: 14px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.draw-button button:hover {*/
+/*    background-color: #e0e0e0;*/
+/*}*/
 
 .paper .ql-editor {
     width: 8.5in;

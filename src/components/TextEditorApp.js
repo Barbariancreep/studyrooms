@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { database } from '../firebase';
 import { ref, set, get, child } from "firebase/database";
 import "./TextEditorApp.css"
+import styled from '@emotion/styled';
 
 const TOOLBAR_COMMANDS = [
 	[{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -41,6 +42,17 @@ const getDocumentFromFirebase = (docPath) =>
 		return null;
 	});
 
+// const btn = styled.div`
+// 	display: flex;
+// 	top: 20%;
+// 	justify-content: center;
+// 	padding: 10px 20px;
+// 	margin: 10px 10px;
+// 	border: 1px solid #ccc;
+// 	color: black;
+// 	background: black;
+// 	font-size: 14px;
+// 	cursor: pointer;`
 
 export default function TextEditor() {
 	const {id: documentId} = useParams();
@@ -117,8 +129,10 @@ export default function TextEditor() {
   
     return (
 		<>
+
+		<Link className={"help"} to={`/documents/${documentId}/draw`}><button>Drawing Page</button></Link>
 		<div className="paper" ref={stop_many_toolbars}></div>
-		<Link to={`/documents/${documentId}/draw`}><button>Draw Page</button></Link>
+
 		</>
     )
 }
