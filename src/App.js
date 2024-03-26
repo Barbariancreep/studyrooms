@@ -1,8 +1,8 @@
 import Login from "./Login";
-import LoginPage from "./components/LoginPage";
 import Register from "./Register";
 import StorageApp from "./components/StorageApp";
 import TextEditorApp from "./components/TextEditorApp";
+import VideoChat from "./components/VideoChat";
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 import { useState, useEffect } from 'react';
 
@@ -30,33 +30,34 @@ function App() {
     };
 
   	return (
-		<Router>
-			<Routes>
+		<div>
+			<Router>
+				<Routes>
 
-				{/* Login Page Route */}
-				<Route path="/" element={<Login onLogin={handleLogin} />} />
+					{/* Login Page Route */}
+					<Route path="/" element={<Login onLogin={handleLogin} />} />
 
-				{/* Register Page Route */}
-				<Route path="/register/" element={<Register />} />
+					{/* Register Page Route */}
+					<Route path="/register/" element={<Register />} />
 
-				{/* Restricted routes */}
-				{isLoggedIn ? (
-                    <>
-					{/* Drive Home Route */}
-					<Route path="/storage/" element={<StorageApp username={username}/>} />
+					{/* Restricted routes */}
+					{isLoggedIn ? (
+						<>
+						{/* Drive Home Route */}
+						<Route path="/storage/" element={<StorageApp username={username}/>} />
 
-					{/* Documents Route */}
-					<Route path="/documents/" element={<Navigate to={`/storage/`} />} />
+						{/* Documents Route */}
+						<Route path="/documents/" element={<Navigate to={`/storage/`} />} />
 
-					{/* Opening a document given by id */}
-					<Route path="/documents/:id" element={<TextEditorApp />} />
-                    </>
-                ) : () => window.open("/", "_self").focus()}
+						{/* Opening a document given by id */}
+						<Route path="/documents/:id" element={<TextEditorApp />} />
+						</>
+					) : () => window.open("/", "_self").focus()}
+				</Routes>
+			</Router>
 
-				{/* Return user to login page if url is invalid or unauthorised */}
-				
-			</Routes>
-		</Router>
+			{isLoggedIn ? (<VideoChat />) : null}
+		</div>
   	);
 }
 
