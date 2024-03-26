@@ -18,7 +18,8 @@ const Videos = styled.div`
     display: flex;
     align-items: flex-end;
     flex-direction: column;
-    height: max-content;
+    height: 100%;
+    width: 100%;
     border: 1px solid;
 `
 
