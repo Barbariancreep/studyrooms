@@ -80,7 +80,10 @@ function VideoChat() {
     padding:"5px",
     border:"1px solid rgb(100, 205, 217)",
   }
-
+  const videoSize = {
+    height:"100%",
+    width:"100%",
+  }
     const servers = {
         iceServers: [
           {
@@ -277,10 +280,10 @@ function VideoChat() {
         </H1>
         <Videos>
             <span>
-                <video ref={webcamVideoRef} autoPlay playsInline></video>
+                <video style={videoSize} ref={webcamVideoRef} autoPlay playsInline></video>
             </span>
             <span>
-                <video ref={remoteVideoRef} autoPlay playsInline ></video>
+                <video style={videoSize} ref={remoteVideoRef} autoPlay playsInline ></video>
             </span>
         </Videos>
 
