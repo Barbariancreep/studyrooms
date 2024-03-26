@@ -4,11 +4,11 @@ import "../src/styles.css";
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-function Login() {
+function Login({ onLogin }) {
   return (
     <div>
       {/* Accessing the Login Page JSX for Rendering the HTML */}
-      <LoginPage />
+      <LoginPage onLogin={(username) => onLogin(username)} />
     </div>
   );
 }
