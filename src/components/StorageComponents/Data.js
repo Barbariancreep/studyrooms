@@ -1,8 +1,8 @@
 // allows us to style our components here in JS
 import styled from '@emotion/styled';
 import {ThemeProvider} from '@emotion/react';
-import useDarkMode from 'use-dark-mode';
 import React from 'react';
+import useDarkMode from "./useDarkMode"
 import ThemeToggleContext from '../../contexts/ThemeToggleContext';
 import {darkTheme,lightTheme} from '../../Theme';
 
