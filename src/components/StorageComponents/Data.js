@@ -21,7 +21,7 @@ import { ref, deleteObject } from "firebase/storage";
 const DataContainer = styled.div`
     position :absolute;
     top: 9%;
-    left: 10%;
+    left: 12%;
     width: 62%;
     flex: 1 1;
     padding: 0px 0px 0px 20px;
