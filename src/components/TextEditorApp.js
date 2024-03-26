@@ -7,6 +7,8 @@ import { useParams } from 'react-router-dom'
 import { database } from '../firebase';
 import { ref, set, get, child } from "firebase/database";
 import "./TextEditorApp.css"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import styled from "@emotion/styled"
 
 const TOOLBAR_COMMANDS = [
 	[{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -41,7 +43,32 @@ const getDocumentFromFirebase = (docPath) =>
 		return null;
 	});
 
-
+const ArrowBackIc = styled.div`
+	position: absolute;
+    top: 7px;
+    left: 2.5%;
+	z-index:6;
+	&:hover{
+		border-radius: 25px;
+		background-color:rgb(105, 219, 231);
+		cursor: pointer;
+		padding-left:10px;
+		padding-right:10px;
+	}
+	`
+const DrawPage = styled.div`
+	position: absolute;
+	z-index:6;
+	top: 10px;
+	left: 10%;
+	font-color: Black;
+	&:hover{
+		border-radius: 25px;
+		background-color:rgb(105, 219, 231);
+		cursor: pointer;
+		padding:5px;
+	}
+`
 export default function TextEditor() {
 	const {id: documentId} = useParams();
 	const [socket, setSocket] = useState();
@@ -117,8 +144,8 @@ export default function TextEditor() {
   
     return (
 		<>
-		<div className="paper" ref={stop_many_toolbars}></div>
-		<Link to={`/documents/${documentId}/draw`}><button>Draw Page</button></Link>
+		<div className="paper" ref={stop_many_toolbars}></div><ArrowBackIc><ArrowBackIcon/></ArrowBackIc>
+		<DrawPage><Link to={`/documents/${documentId}/draw`}>Draw Page</Link></DrawPage>
 		</>
     )
 }
