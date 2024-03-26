@@ -48,7 +48,6 @@ const Settings =(props) => {
         {props.title}
         <SettingOptionList className={'list'}>
            <SettingOption >
-                <span> Mode</span>
             </SettingOption>
         </SettingOptionList>
     </SettingContainer>
