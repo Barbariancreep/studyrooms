@@ -6,7 +6,7 @@ import { child, ref, update } from "firebase/database";
 // -----------------------------------------------------------------------------------------------------------------------
 
 // LoginPage JSX Component
-function LoginPage() {
+function LoginPage({ onLogin }) {
 
     // State variables to keep track of the input from the user for Login Page
     const [email, getEmail] = useState("");
@@ -31,6 +31,9 @@ function LoginPage() {
                 last_login: Date.now()
             }
 
+            // Trigger onLogin to allow user access on App.js
+            onLogin();
+
             // Firebase Database Reference
             var databaseRef = ref(database, "users/")
 
@@ -40,7 +43,7 @@ function LoginPage() {
             // Updating the Last Login for the current user
             update(userRef, user_data)
             .then(() => {
-                window.open("/storage", "_self").focus()
+                //window.open("/storage", "_self").focus()
             })
             .catch(function(error) {
                 // Firebase will use this to alert of its errors
