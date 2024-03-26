@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Quill from "quill"
 import "quill/dist/quill.snow.css"
+import ImageResize from "quill-image-resize";
 import { Link } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import { useParams } from 'react-router-dom'
@@ -9,17 +10,20 @@ import { ref, set, get, child } from "firebase/database";
 import "./TextEditorApp.css"
 import styled from '@emotion/styled';
 
+Quill.register("modules/imageResize", ImageResize);
+
 const TOOLBAR_COMMANDS = [
 	[{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ font: [] }],
-    [{ script: "sub" }, { script: "super" }],
-    ["bold", "italic", "underline"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ color: [] }, { background: [] }],
-    [{ align: [] }],
-    ["image", "blockquote", "code-block"],
-    ["clean"],
-]
+	[{ font: [] }],
+	[{ script: "sub" }, { script: "super" }],
+	["bold", "italic", "underline"],
+	[{ list: "ordered" }, { list: "bullet" }],
+	[{ color: [] }, { background: [] }],
+	[{ align: [] }],
+	[{ image: "resize" }, "blockquote", "code-block"],
+	["clean"],
+];
+
 
 function sendQuillDataToFirebase(quill, delta, documentId) {
 	if (quill)
@@ -42,17 +46,6 @@ const getDocumentFromFirebase = (docPath) =>
 		return null;
 	});
 
-// const btn = styled.div`
-// 	display: flex;
-// 	top: 20%;
-// 	justify-content: center;
-// 	padding: 10px 20px;
-// 	margin: 10px 10px;
-// 	border: 1px solid #ccc;
-// 	color: black;
-// 	background: black;
-// 	font-size: 14px;
-// 	cursor: pointer;`
 
 export default function TextEditor() {
 	const {id: documentId} = useParams();
@@ -117,15 +110,28 @@ export default function TextEditor() {
 	}, [socket, quill, documentId])
 
 	const stop_many_toolbars = useCallback((wrapper) => {
-		if (wrapper == null) return
-		wrapper.innerHTML = ""
-		const editor = document.createElement("div")
-		wrapper.append(editor)
-		const q = new Quill(editor, {theme: "snow", modules: { toolbar: TOOLBAR_COMMANDS}})
-		q.disable()
-		q.setText('Loading...')
-		setQuill(q)
-	}, [])
+		if (wrapper == null) return;
+		wrapper.innerHTML = "";
+		const editor = document.createElement("div");
+		wrapper.append(editor);
+		const q = new Quill(editor, {
+			theme: "snow",
+			modules: {
+				toolbar: TOOLBAR_COMMANDS,
+				imageResize: {
+					displaySize: true,
+					handleStyles: {
+						backgroundColor: "black",
+						border: "none",
+						color: "white",
+					},
+				},
+			},
+		});
+		q.disable();
+		q.setText("Loading...");
+		setQuill(q);
+	}, []);
   
     return (
 		<>
