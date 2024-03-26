@@ -4,6 +4,9 @@ import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AppsIcon from '@mui/icons-material/Apps';
+import Settings from './Settings';
+import React, {useState} from "react";
+
 //import { Avatar } from '@mui/base/';
 
 const HeaderContainer = styled.div`
@@ -13,6 +16,12 @@ const HeaderContainer = styled.div`
     padding: 5px 20px;
     height: 60px;
     border-bottom: 1px solid black;
+    background-color:rgb(100, 205, 217);
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 `
 const HeaderLogo = styled.div`
     display: flex;
@@ -53,8 +62,35 @@ const HeaderIcons = styled.div`
         margin: 0px 10px;
     }
 `
+const Help = styled.div`
+display: flex;
+&:hover{
+    border-radius: 25px;
+    background-color:rgb(105, 219, 231);
+    cursor: pointer;
+    padding-left:10px;
+    padding-right:20px;
+    padding:10px;
+}
+`
+const SettingIc = styled.div`
+display: flex;
+&:hover{
+    border-radius: 25px;
+    background-color:rgb(105, 219, 231);
+    cursor: pointer;
+    padding-left:20px;
+    padding-right:10px;
+    padding:10px;
+}
+`
+const Header = (props) => {
+    
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
-const Header = ({ photoURL }) => {
+    const toggleSettings = () => {
+        setSettingsOpen(prevState => !prevState);
+    }
     return (
         <>
         <HeaderContainer>
@@ -69,8 +105,13 @@ const Header = ({ photoURL }) => {
             </HeaderSearch>
             <HeaderIcons>
                 <span>
+                <Help onClick={() => window.open("https://mercury241.github.io/F29SEwebPage.github.io/", '_blank').focus()}>
                     <HelpOutlineIcon />
-                    <SettingsIcon />
+                </Help>
+                <SettingIc onClick={toggleSettings}>
+                    <SettingsIcon/>
+                </SettingIc>
+                    {settingsOpen && <Settings />}
                 </span>
                 <span>
                     <AppsIcon />
