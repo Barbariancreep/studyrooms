@@ -22,7 +22,7 @@ const DataContainer = styled.div`
     position :absolute;
     top: 9%;
     left: 10%;
-    width: 130vh;
+    width: 62%;
     flex: 1 1;
     padding: 0px 0px 0px 20px;
     background:rgb(248, 248, 248) ;
@@ -83,6 +83,10 @@ const ShareFilePopup = styled.div`
     transform: translateY(-50%);
     padding: 10px;
     border-radius: 10px;
+    input.modal__textbox{
+        background:grey;
+        display:flex;
+    }
 `
 
 const Data = ({ username }) => {
