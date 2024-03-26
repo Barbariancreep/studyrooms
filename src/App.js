@@ -5,6 +5,7 @@ import TextEditorApp from "./components/TextEditorApp";
 import VideoChat from "./components/VideoChat";
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 import { useState, useEffect } from 'react';
+import DrawApp from "./components/DrawApp";
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
@@ -51,6 +52,9 @@ function App() {
 
 						{/* Opening a document given by id */}
 						<Route path="/documents/:id" element={<TextEditorApp />} />
+
+						{/* Opening the drawing page from  */}
+						<Route path="/documents/:id/draw" element={<DrawApp />} />
 						</>
 					) : () => window.open("/", "_self").focus()}
 				</Routes>

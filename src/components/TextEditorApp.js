@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Quill from "quill"
 import "quill/dist/quill.snow.css"
+import { Link } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import { useParams } from 'react-router-dom'
 import { database } from '../firebase';
@@ -117,6 +118,7 @@ export default function TextEditor() {
     return (
 		<>
 		<div className="paper" ref={stop_many_toolbars}></div>
+		<Link to={`/documents/${documentId}/draw`}><button>Draw Page</button></Link>
 		</>
     )
 }
