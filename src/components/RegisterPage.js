@@ -90,18 +90,18 @@ function RegisterPage() {
                 <div className="form_body_container">
                     {/* Input fields of the Form for Login */}
                     <div className="form_content_container">
-                        <input type="text" placeholder="First Name" id="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                        <input type="text" placeholder="Last Name" id="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                        <input type="email" placeholder="Email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type="text" placeholder="First Name" id="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} class="input_field"/>
+                        <input type="text" placeholder="Last Name" id="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} class="input_field"/>
+                        <input type="email" placeholder="Email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} class="input_field"/>
+                        <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} class="input_field"/>
 
                         {/* Buttons for Login and Register */}
                         <div className="button_container">
                             <button type="submit" onClick={() => window.open("/", "_self").focus()}>
-                                <p>Login</p>
+                                <p>Sign In</p>
                             </button>
                             <button type="submit" onClick={() => handleSubmit()}>
-                                <p>Register Me</p>
+                                <p>Sign Up</p>
                             </button>
                         </div>
                     </div>

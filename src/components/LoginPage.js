@@ -73,16 +73,16 @@ function LoginPage() {
                 <div className="form_body_container">
                     {/* Input fields of the Form for Login */}
                     <div className="form_content_container">
-                        <input type="email" placeholder="Email" id="email" value={email} onChange={(e) => getEmail(e.target.value)} />
-                        <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => getPassword(e.target.value)} />
+                        <input type="email" placeholder="Email" id="email" value={email} onChange={(e) => getEmail(e.target.value)} class="input_field"/>
+                        <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => getPassword(e.target.value)} class="input_field"/>
 
                         {/* Buttons for Login and Register */}
                         <div className="button_container">
                             <button type="submit" onClick={() => handleSubmit()}>
-                                <p>Login</p>
+                                <p>Sign In</p>
                             </button>
                             <button type="submit" onClick={() => window.open("/register", "_self").focus()}>
-                                <p>Register Me</p>
+                                <p>Sign Up</p>
                             </button>
                         </div>
                     </div>
