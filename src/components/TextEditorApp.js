@@ -9,6 +9,7 @@ import { ref, set, get, child } from "firebase/database";
 import "./TextEditorApp.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import styled from "@emotion/styled"
+import styled from '@emotion/styled';
 
 const TOOLBAR_COMMANDS = [
 	[{ header: [1, 2, 3, 4, 5, 6, false] }],

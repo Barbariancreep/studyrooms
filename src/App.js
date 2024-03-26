@@ -53,7 +53,7 @@ function App() {
 						{/* Opening a document given by id */}
 						<Route path="/documents/:id" element={<TextEditorApp />} />
 
-						{/* Opening the drawing page from  */}
+						{/* Opening the drawing page from editor  */}
 						<Route path="/documents/:id/draw" element={<DrawApp />} />
 						</>
 					) : () => window.open("/", "_self").focus()}

@@ -15,11 +15,12 @@ canvas {
 
 .toolbar {
     display: flex;
+    margin: 0 auto;
     justify-content: center;
-    margin-top: 20px;
     padding: 20px 0 20px 0;
     background: darkgray;
-    max-height: 80px;
+    height: 80px;
+    width: 600px;
 }
 
 .toolbar div {
