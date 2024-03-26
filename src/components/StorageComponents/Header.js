@@ -6,6 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Settings from './Settings';
 import React, {useState} from "react";
+import G17Logo from './G17.png';
 
 //import { Avatar } from '@mui/base/';
 
@@ -101,7 +102,7 @@ const Header = ({ onLogout }) => {
         <>
         <HeaderContainer>
             <HeaderLogo>
-                <img src="https://cdn.pixabay.com/photo/2021/08/19/16/50/bird-6558500_1280.png" alt="Phoenix Drive" />
+                <img src={G17Logo} />
                 <span>StudyRooms</span>
             </HeaderLogo>
             <HeaderSearch>
