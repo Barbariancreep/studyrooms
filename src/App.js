@@ -71,7 +71,7 @@ function App() {
 				</Routes>
 			</Router>
 
-			{isLoggedIn ? (<VideoChat />) : null}
+			{ (isLoggedIn && window.location.pathname) !== "/" ? (<VideoChat />) : null}
 		</div>
   	);
 }

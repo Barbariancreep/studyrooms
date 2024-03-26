@@ -9,11 +9,12 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DownloadIcon from '@mui/icons-material/Download';
 import Modal from '@mui/material/Modal';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import IosShareIcon from '@mui/icons-material/IosShare';
 
 // ball
 import { useEffect, useState } from 'react';
 import { db, storage, auth } from '../../firebase';
-import { getDocs, query, where, collection, deleteDoc, doc } from 'firebase/firestore';
+import { getDocs, query, where, collection, setDoc, deleteDoc, doc } from 'firebase/firestore';
 import { ref, deleteObject } from "firebase/storage";
 
 
@@ -73,11 +74,28 @@ const DataListRow = styled.div`
     }
 `
 
+const ShareFilePopup = styled.div`
+    top: 50%;
+    background-color: #fff;
+    width: 500px;
+    margin: 0px auto;
+    position: relative;
+    transform: translateY(-50%);
+    padding: 10px;
+    border-radius: 10px;
+`
+
 const Data = ({ username }) => {
-    //var user = auth.currentUser
-    //const username = user.email.split('@')[0]; // the part of the email before the @
     const userCollectionRef = collection(db, username);
     const [files, setFiles] = useState([]);
+    const [fileToShare, setFileToShare] = useState(null);
+    const [sharedUsername, setSharedUsername] = useState('');
+
+    const handleSharedUsernameChange = e => {
+        if(e.target.value) {
+            setSharedUsername(e.target.value)
+        }
+    }
 
     useEffect(() => {
         const querySnapshot = getDocs(userCollectionRef); // conditionless query that returns all documents in collection
@@ -108,8 +126,8 @@ const Data = ({ username }) => {
         }
     }
 
-    async function deleteFile(fileToDelete) {
-        await deleteDoc(doc(db, username, fileToDelete.id)); // delete doc
+    async function deleteFile(fileToDelete) { // delete doc
+        await deleteDoc(doc(db, username, fileToDelete.id)); 
         
         if (!fileToDelete.data.filename.endsWith(".study")) {
             var fileRef = ref(storage, `${username}/${fileToDelete.data.filename}`);
@@ -121,8 +139,40 @@ const Data = ({ username }) => {
         setFiles(updatedFiles);
     }
 
+    async function shareFile(e) {
+        e.preventDefault();
+
+        try {
+            const docData = {
+                timestamp: fileToShare.data.timestamp,
+                filename: fileToShare.data.filename,
+                owner: fileToShare.data.owner,
+                fileURL: fileToShare.data.fileURL,
+                filesize: fileToShare.data.filesize
+            };
+            await setDoc(doc(db, sharedUsername, fileToShare.id), docData);
+            setSharedUsername('');
+            setFileToShare(null);
+        } catch (error) {
+            console.error("Error adding Firestore document:", error);
+        }
+    }
+
     return (
         <>
+        <Modal
+            open={(fileToShare !== null)} //
+            onClose={() => setFileToShare(null)}
+            >
+            <ShareFilePopup>  
+                <form onSubmit={shareFile}>
+                    <p>Enter the username of the user you want to share with:</p>
+                    <input type="text" className='modal__textbox' value={sharedUsername} onChange={handleSharedUsernameChange}/>
+                    <input type="submit" className='modal__submit' value="Confirm"/>
+                </form>
+            </ShareFilePopup>
+        </Modal>
+
         <DataContainer>
             <DataType>
                 <span>My Files</span>
@@ -142,6 +192,7 @@ const Data = ({ username }) => {
                         <p>{secondsToDate(file.data.timestamp.seconds)}</p>
                         <p>{file.data.filesize} B</p>
                     </div>
+                    <div onClick={() => setFileToShare(file)}><IosShareIcon/></div>
                     <div onClick={() => deleteFile(file)}><DeleteOutlineIcon/></div>
                 </DataListRow>
             ))}
