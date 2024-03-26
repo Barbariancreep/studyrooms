@@ -2,13 +2,13 @@ import Header from "./StorageComponents/Header";
 import Sidebar from "./StorageComponents/Sidebar";
 import Data from "./StorageComponents/Data";
 
-function StorageApp() {
+function StorageApp({ username }) {
   return (
     <>
     <Header/>
     <div className="App">
-        <Sidebar />
-        <Data />
+        <Sidebar username={username} />
+        <Data username={username}/>
     </div>
     </>
   );

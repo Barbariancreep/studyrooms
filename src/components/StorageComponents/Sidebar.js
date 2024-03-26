@@ -14,7 +14,7 @@ import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 
 // File storage stuff
-import { db, storage } from '../../firebase';
+import { db, storage, auth } from '../../firebase';
 import { doc, setDoc, Timestamp, collection, addDoc } from "firebase/firestore"; 
 import { getDownloadURL, getMetadata, ref, uploadBytes } from "firebase/storage";
 
@@ -65,8 +65,9 @@ const AddFilePopup = styled.div`
     border-radius: 10px;
 `
 
-const Sidebar = () => {
-    const userId = "admin";
+const Sidebar = ({ username }) => {
+    //var user = auth.currentUser
+    //const username = user.email.split('@')[0]; // the part of the email before the @
 
     const [openCreate, setOpenCreate] = useState(false);
     const [openUpload, setOpenUpload] = useState(false);
@@ -92,7 +93,7 @@ const Sidebar = () => {
         setUploading(true);
 
         // Add file to firestore storage
-        const storageRef = ref(storage, `${userId}/${file.name}`);
+        const storageRef = ref(storage, `${username}/${file.name}`);
         try {
             await uploadBytes(storageRef, file);
         } catch (error) {
@@ -100,13 +101,14 @@ const Sidebar = () => {
         }
         
         // Add firestore entry
-        const collectionRef = collection(db, userId);
+        const collectionRef = collection(db, username);
         try {
             const downloadURL = await getDownloadURL(storageRef);
             const metadata = await getMetadata(storageRef);
             const docData = {
                 timestamp: Timestamp.now(),
                 filename: file.name,
+                owner: username,
                 fileURL: downloadURL,
                 filesize: metadata.size
             };
@@ -126,11 +128,12 @@ const Sidebar = () => {
     async function createNewFile(e) {
         e.preventDefault();
 
-        const collectionRef = collection(db, userId);
+        const collectionRef = collection(db, username);
         try {
             const docData = {
                 timestamp: Timestamp.now(),
                 filename: newFileName + ".study",
+                owner: username,
                 fileURL: '',
                 filesize: 0
             };
