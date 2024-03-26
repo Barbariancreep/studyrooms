@@ -63,14 +63,16 @@ const ArrowBackIc = styled.div`
 const DrawPage = styled.div`
 	position: absolute;
 	z-index:6;
-	top: 10px;
+	top: 7px;
 	left: 10%;
-	font-color: Black;
+	color: Black;
+	font-size:17.5px;
 	&:hover{
 		border-radius: 25px;
 		background-color:rgb(105, 219, 231);
 		cursor: pointer;
-		padding:5px;
+		padding-left:10px;
+		padding-right:10px;
 	}
 `
 export default function TextEditor() {
