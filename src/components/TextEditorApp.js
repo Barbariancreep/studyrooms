@@ -163,7 +163,7 @@ export default function TextEditor() {
   
     return (
 		<>
-		<div className="paper" ref={stop_many_toolbars}></div><ArrowBackIc><ArrowBackIcon/></ArrowBackIc>
+		<div className="paper" ref={stop_many_toolbars}></div><ArrowBackIc><ArrowBackIcon onClick={() =>window.location.href=`/documents`}/></ArrowBackIc>
 		<DrawPage><Link to={`/documents/${documentId}/draw`}>Draw Page</Link></DrawPage>
 		</>
     )
