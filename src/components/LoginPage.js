@@ -7,7 +7,7 @@ import { child, ref, update } from "firebase/database";
 
 // LoginPage JSX Component
 function LoginPage({ onLogin }) {
-
+    
     // State variables to keep track of the input from the user for Login Page
     const [email, getEmail] = useState("");
     const [password, getPassword] = useState("");
@@ -63,7 +63,6 @@ function LoginPage({ onLogin }) {
     }
 
     return (
-        // Container for the entire page
         <div className="content_container">
             {/* Container for the form */}
             <div className="form_container">

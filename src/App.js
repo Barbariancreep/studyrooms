@@ -27,7 +27,7 @@ function App() {
 			<Routes>
 
 				{/* Login Page Route */}
-				<Route path="/" element={<LoginPage onLogin={handleLogin} />} />
+				<Route path="/" element={<Login onLogin={handleLogin} />} />
 
 				{/* Register Page Route */}
 				<Route path="/register/" element={<Register />} />

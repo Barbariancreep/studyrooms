@@ -20,6 +20,11 @@ import { getDownloadURL, getMetadata, ref, uploadBytes } from "firebase/storage"
 
 const SidebarContainer = styled.div`
     margin-top: 10px;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 `
 
 const SidebarOptionsList = styled.div`
@@ -40,7 +45,7 @@ const SidebarOption = styled.div`
     padding: 8px 20px;
     border-radius: 0px 20px 20px 0px;
     &:hover{
-        background: whitesmoke;
+        background: rgb(240, 240, 240);
         cursor: pointer;
     }
     svg.MuiSvgIcon-root {
