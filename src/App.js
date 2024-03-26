@@ -28,7 +28,18 @@ function App() {
         setIsLoggedIn(false);
 		localStorage.removeItem('isLoggedIn');
 		localStorage.removeItem('username'); // Remove username from localStorage
+		window.open("/", "_self").focus()
     };
+
+	useEffect(() => {
+        // if the user is already logged in and is on the login page, send them to storage
+        if (localStorage.getItem('isLoggedIn') === 'true' && window.location.pathname === "/") {
+            const storedUsername = localStorage.getItem('username') || 'dummy';
+            setUsername(storedUsername);
+            setIsLoggedIn(true);
+			window.open("/storage", "_self").focus()
+        }
+    }, []);
 
   	return (
 		<div>
@@ -45,7 +56,7 @@ function App() {
 					{isLoggedIn ? (
 						<>
 						{/* Drive Home Route */}
-						<Route path="/storage/" element={<StorageApp username={username}/>} />
+						<Route path="/storage/" element={<StorageApp username={username} onLogout={handleLogout} />} />
 
 						{/* Documents Route */}
 						<Route path="/documents/" element={<Navigate to={`/storage/`} />} />

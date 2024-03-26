@@ -90,7 +90,7 @@ display: flex;
 }
     `
 
-const Header = (props) => {
+const Header = ({ onLogout }) => {
     
     const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -120,7 +120,7 @@ const Header = (props) => {
                     {settingsOpen && <Settings />}
                 </span>
                 <span>
-                <LogOutButton>
+                <LogOutButton onClick={() => onLogout()}>
                     <LogoutIcon/>
                 </LogOutButton>
                 </span>
