@@ -3,7 +3,7 @@ import Quill from "quill"
 import "quill/dist/quill.snow.css"
 import { io } from 'socket.io-client'
 import { useParams } from 'react-router-dom'
-import { rtDatabase } from '../firebase';
+import { database } from '../firebase';
 import { ref, set, get, child } from "firebase/database";
 import "./TextEditorApp.css"
 
@@ -23,12 +23,12 @@ function sendQuillDataToFirebase(quill, delta, documentId) {
 	if (quill)
 	{
 		// Update Firebase Realtime Database
-		set(ref(rtDatabase, `documents/${documentId}`), { quillData: quill.getContents().ops });
+		set(ref(database, `documents/${documentId}`), { quillData: quill.getContents().ops });
 	}
 }
 
 const getDocumentFromFirebase = (docPath) =>
-	get(child(ref(rtDatabase),`${docPath}`)).then((snapshot) => {
+	get(child(ref(database),`${docPath}`)).then((snapshot) => {
 		if (snapshot.exists() && typeof(snapshot.val().quillData) !== 'undefined') {
 			return Object.values(snapshot.val().quillData); //convert object into array of values, as quill expects
 		} else {
