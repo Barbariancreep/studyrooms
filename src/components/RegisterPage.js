@@ -8,29 +8,33 @@ import {child, ref, set } from "firebase/database";
 // RegisterPage JSX Component
 function RegisterPage() {
 
+    // State variables to keep track of all the inputs from the user for the Register Page
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    // State method to access and process the inputs from the user for the Register Page
     const handleSubmit = e => {
-        console.log(firstName);
-        console.log(lastName);
-        console.log(email);
-        console.log(password);
+        // console.log(firstName);
+        // console.log(lastName);
+        // console.log(email);
+        // console.log(password);
 
+        // Validating the Input from the user
         if (validate_email(email) == false || validate_password(password) == false || validate_field(firstName) == false || validate_field(lastName) == false) {
             alert("Incomplete Fields!!!!")
             return
         }
 
-        // Move on with Auth
+        // Moving on with Authentication to create a user using email and password
         createUserWithEmailAndPassword(auth, email, password)
         .then(function() {
-            // Declare user variable
+
+            // Declaring a unique user object for the new user
             var user = auth.currentUser
         
-            // Create User data
+            // Data corresponding to the new user
             var user_data = {
             email : email,
             firstName : firstName,
@@ -43,10 +47,15 @@ function RegisterPage() {
 
             // Specific User Reference
             var userRef = child(databaseRef, user.uid)
+
+            // Commiting the Data from the new user into the database
             set(userRef, user_data)
             .then(() => {
+                
                 // Done
                 alert('User Created!!')
+
+                // Rerouting to the Login Page
                 window.open("/", "_self").focus();
             })
             .catch(function(error) {
@@ -65,7 +74,6 @@ function RegisterPage() {
         
             alert(error_message)
         })
-
     }
 
     return (
@@ -87,15 +95,15 @@ function RegisterPage() {
                         <input type="email" placeholder="Email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                         <input type="password" placeholder="Password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                    {/* Buttons for Login and Register */}
-                    <div className="button_container">
-                        <button type="submit" onClick={() => window.open("/", "_self").focus()}>
-                            <p>Login</p>
-                        </button>
-                        <button type="submit" onClick={() => handleSubmit()}>
-                            <p>Register Me</p>
-                        </button>
-                    </div>
+                        {/* Buttons for Login and Register */}
+                        <div className="button_container">
+                            <button type="submit" onClick={() => window.open("/", "_self").focus()}>
+                                <p>Login</p>
+                            </button>
+                            <button type="submit" onClick={() => handleSubmit()}>
+                                <p>Register Me</p>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,4 +111,7 @@ function RegisterPage() {
     )
 }
 
+// Exporting the JSX component to Register.js
 export default RegisterPage;
+
+// -----------------------------------------------------------------------------------------------------------------------

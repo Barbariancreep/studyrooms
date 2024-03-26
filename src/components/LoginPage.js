@@ -8,19 +8,22 @@ import { child, ref, update } from "firebase/database";
 // LoginPage JSX Component
 function LoginPage() {
 
+    // State variables to keep track of the input from the user for Login Page
     const [email, getEmail] = useState("");
     const [password, getPassword] = useState("");
 
+    // State method to access and process the inputs from the user for the Login Page
     const handleSubmit = e => {
         if (validate_email(email) == false || validate_password(password) == false) {
             alert("Incomplete Fields!!")
             return
         }
 
+        // Moving on with Authentication for the user with Email and Password to Login
         signInWithEmailAndPassword(auth, email, password)
         .then(()  => {
 
-            // Declaring the user
+            // Declaring the user object to parse the existing user
             var user = auth.currentUser
 
             // Creating the User JSON object for updating the last login
@@ -33,6 +36,8 @@ function LoginPage() {
 
             // Specific User Reference
             var userRef = child(databaseRef, user.uid)
+
+            // Updating the Last Login for the current user
             update(userRef, user_data)
             .then(() => {
                 window.open("/storage", "_self").focus()
@@ -87,4 +92,7 @@ function LoginPage() {
     )
 }
 
+// Exporting the JSX component to the Login.js
 export default LoginPage;
+
+// -----------------------------------------------------------------------------------------------------------------------
