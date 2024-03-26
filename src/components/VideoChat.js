@@ -2,12 +2,13 @@ import styled from "@emotion/styled"
 import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, doc, getDoc, setDoc, addDoc, onSnapshot, updateDoc, ref, database, onChildAdded } from 'firebase/firestore';
 import { db } from '../firebase';
+
 const ConferenceCall = styled.div`
     position: absolute;
     top: 7%;
     left: 75%;
-    width: 50vh;
-    height: 90vh;
+    width: 24%;
+    height: 92%;
     box-sizing: border-box;
     margin-left: auto;
     display: flex;
