@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
-import AppsIcon from '@mui/icons-material/Apps';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Settings from './Settings';
 import React, {useState} from "react";
 
@@ -33,6 +33,7 @@ const HeaderLogo = styled.div`
         font-size: 22px;
         margin-left: 10px;
         color: #000000;
+        font-weight:600;
     }
 `
 
@@ -68,9 +69,6 @@ display: flex;
     border-radius: 25px;
     background-color:rgb(105, 219, 231);
     cursor: pointer;
-    padding-left:10px;
-    padding-right:20px;
-    padding:10px;
 }
 `
 const SettingIc = styled.div`
@@ -79,11 +77,19 @@ display: flex;
     border-radius: 25px;
     background-color:rgb(105, 219, 231);
     cursor: pointer;
-    padding-left:20px;
-    padding-right:10px;
-    padding:10px;
+    padding:5px;
 }
 `
+const LogOutButton =styled.div`
+display: flex;
+&:hover{
+    border-radius: 25px;
+    background-color:rgb(105, 219, 231);
+    cursor: pointer;
+    padding:5px;
+}
+    `
+
 const Header = (props) => {
     
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -114,8 +120,9 @@ const Header = (props) => {
                     {settingsOpen && <Settings />}
                 </span>
                 <span>
-                    <AppsIcon />
-                    
+                <LogOutButton>
+                    <LogoutIcon/>
+                </LogOutButton>
                 </span>
             </HeaderIcons>
         </HeaderContainer>

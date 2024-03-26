@@ -3,20 +3,23 @@ import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, doc, getDoc, setDoc, addDoc, onSnapshot, updateDoc, ref, database, onChildAdded } from 'firebase/firestore';
 import { db } from '../firebase';
 const ConferenceCall = styled.div`
-    border-style: solid;
-    border-width: 5px;
+    position: absolute;
+    top: 7%;
+    left: 75%;
     width: 50vh;
-    height: 100vh;
+    height: 90vh;
     box-sizing: border-box;
     margin-left: auto;
     display: flex;
     flex-direction: column;
+    background-color: #556d7c;
 `
 const Videos = styled.div`
     display: flex;
     align-items: flex-end;
     flex-direction: column;
     height: max-content;
+    border: 1px solid;
 `
 
 const Controls = styled.div`
@@ -29,17 +32,19 @@ const Controls = styled.div`
 `
 const H1 = styled.div`
     text-align: center;
-    border-style: none none solid none;
-    border-width: 1px;
-    padding-bottom: 20px;
-    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     margin: 0%;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
 `
 const P = styled.div`
     display: inline;
     font-size: 20px;
-    padding-right: 20px;
-    padding-left:  5px;
+    padding: 10px;
+    color:rgb(100, 205, 217);
+    font-weight:bold;
 `
 
 const ButtonRows = styled.div`
@@ -48,6 +53,32 @@ const ButtonRows = styled.div`
 `
 
 function VideoChat() {
+
+  const webButton = {
+    borderRadius: "25px",
+    width:"200px",
+    padding: "10px",
+    background:"rgb(100, 205, 217)",
+    margin:"10px",
+    marginTop:"0px",
+    cursor: "pointer",
+    }
+  
+  const webButtons = {
+    borderRadius: "25px",
+    width:"200px",
+    padding: "10px",
+    background:"rgb(100, 205, 217)",
+    margin:"10px",
+    marginTop:"12px",
+    cursor: "pointer",
+    }
+    
+  const codeBox = {
+    padding:"5px",
+    border:"1px solid rgb(100, 205, 217)",
+  }
+
     const servers = {
         iceServers: [
           {
@@ -255,18 +286,19 @@ function VideoChat() {
 
         <Controls>
             <ButtonRows>
-                <button ref={webcamButton} onClick={handleWebcamButtonClick}>Start webcam</button> <button ref={callButton} onClick={handleCallButtonClick}>Create Room</button>
+                <button style={webButton} ref={webcamButton} onClick={handleWebcamButtonClick}>Start webcam</button>
+                <button style={webButton} ref={callButton} onClick={handleCallButtonClick}>Create Room</button>
             </ButtonRows>
             <ButtonRows>
-                <P>Enter the room code here:</P><input ref={callInputRef} defaultValue={""}/>
+                <P>Enter the room code here:</P><input style={codeBox} ref={callInputRef} defaultValue={""}/>
             </ButtonRows>
             <ButtonRows>
-                <button ref={answerButton} onClick={handleAnswerButtonClick}>Join</button>
-                <button ref={hangupButton} onClick={handleHangupButtonClick}>Leave</button>
+                <button style={webButtons} ref={answerButton} onClick={handleAnswerButtonClick}>Join</button>
+                <button style={webButtons} ref={hangupButton} onClick={handleHangupButtonClick}>Leave</button>
             </ButtonRows>
             <ButtonRows>
-                <button ref ={chatButton}>Submit</button>
-                <button ref={muteButton} onClick={handleMute}>Mute</button>
+                <button style={webButton} ref ={chatButton}>Submit</button>
+                <button style={webButton} ref={muteButton} onClick={handleMute}>Mute</button>
             </ButtonRows>
         </Controls>
 

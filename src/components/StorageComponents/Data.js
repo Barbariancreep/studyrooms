@@ -18,6 +18,10 @@ import { ref, deleteObject } from "firebase/storage";
 
 
 const DataContainer = styled.div`
+    position :absolute;
+    top: 9%;
+    left: 10%;
+    width: 130vh;
     flex: 1 1;
     padding: 0px 0px 0px 20px;
     background:rgb(248, 248, 248) ;
@@ -27,7 +31,11 @@ const DataContainer = styled.div`
     -ms-user-select: none;
     user-select: none;
 `
-
+const DataType = styled.div`
+    font-weight:650;
+    margin-left:0.5%;
+    font-size:17px;
+`
 const DataListHeader = styled.div`
     display: flex;
     align-items: center;
@@ -116,7 +124,9 @@ const Data = ({ username }) => {
     return (
         <>
         <DataContainer>
-
+            <DataType>
+                <span>My Files</span>
+            </DataType>
             <DataListHeader>
                 <p><b>Name <ArrowDownwardIcon /></b></p>
                 <p><b>Owner</b></p>

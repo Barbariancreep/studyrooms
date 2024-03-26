@@ -7,7 +7,7 @@ const SettingContainer = styled.div`
         top: 60px;
         left: 85%;
         height: 500px;
-        width: 500px;
+        width: 30vh;
         z-index: 99;
         background: rgb(248, 248, 248);
         border-left: 1px solid black;
