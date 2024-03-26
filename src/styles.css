@@ -10,23 +10,7 @@
   }
   
   /* Applying the Background Gradient */
-  html,
-  body {
-    width: 100%;
-    height: 100%;
-    background: -webkit-linear-gradient(
-      25deg,
-      #ffbe0b,
-      #fb5607,
-      #ff006e,
-      #8338ec,
-      #3a86ff
-    );
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+
   
   /* ------------------------------------------------------- */
   

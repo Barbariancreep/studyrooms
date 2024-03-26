@@ -19,7 +19,13 @@ import { ref, deleteObject } from "firebase/storage";
 
 const DataContainer = styled.div`
     flex: 1 1;
-    padding: 10px 0px 0px 20px;
+    padding: 0px 0px 0px 20px;
+    background:rgb(248, 248, 248) ;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 `
 
 const DataListHeader = styled.div`
@@ -41,18 +47,20 @@ const DataListRow = styled.div`
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid black;
-    padding: 10px;
     div {
         display: contents;
     }
+    
     p {
         flex: 1;
         display: flex;
         align-items: center;
         font-size: 13px;
+        padding-left: 10px;
+        height:40px;
     }
     &:hover{
-        background: whitesmoke;
+        background: rgb(240, 240, 240);
         cursor: pointer;
     }
 `
