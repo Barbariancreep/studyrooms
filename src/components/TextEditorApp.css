@@ -47,7 +47,8 @@ body {
 .paper .ql-container.ql-snow {
     border: none;
     display: flex;
-    justify-content: center;
+    position: absolute;
+    left: 20%;
 }
 
 .paper .ql-toolbar.ql-snow {

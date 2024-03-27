@@ -11,16 +11,21 @@ canvas {
     display: block;
     margin: 50px auto;
     background-color: white;
+    position:absolute;
+    left: 20%;
+
 }
 
 .toolbar {
     display: flex;
     margin: 0 auto;
-    justify-content: center;
     padding: 20px 0 20px 0;
     background: darkgray;
     height: 80px;
     width: 600px;
+    position:absolute;
+    left: 27%;
+    top: 90%;
 }
 
 .toolbar div {
@@ -66,7 +71,9 @@ canvas {
 }
 .additional-buttons {
     display: flex;
-    justify-content: center;
+    position:absolute;
+    left: 30%;
+    top: 100%;
 }
 
 .additional-buttons button {
