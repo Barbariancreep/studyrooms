@@ -5,10 +5,10 @@ import { db } from '../firebase';
 
 const ConferenceCall = styled.div`
     position: absolute;
-    top: 7%;
+    top: 10%;
     left: 75%;
     width: 24%;
-    height: 92%;
+    height: fit-content;
     box-sizing: border-box;
     margin-left: auto;
     display: flex;
@@ -25,7 +25,8 @@ const Videos = styled.div`
 `
 
 const Controls = styled.div`
-    height: max-content;
+    height: fit-content;
+    block-size:fit-content;
     display: flex;
     flex-direction: column;
     padding: 5px;
